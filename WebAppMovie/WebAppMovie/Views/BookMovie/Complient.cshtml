@@ -1,0 +1,161 @@
+﻿@model WebAppMovie.Models.ComplientStatus
+
+@{
+    ViewBag.Title = "Complient";
+    Layout = "~/Views/Shared/_new.cshtml";
+}
+
+<h4>Feedback/complient</h4>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/Content/CSS/bootstrap.min.book.css">
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <style type="text/css">
+        body {
+            color: #999;
+            background: #ffffff;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .form-control {
+            border-color: #eee;
+            min-height: 41px;
+            box-shadow: none !important;
+        }
+
+            .form-control:focus {
+                border-color: #5cd3b4;
+            }
+
+        .form-control, .btn {
+            border-radius: 3px;
+        }
+
+        .signup-form {
+            width: 500px;
+            margin: 0 auto;
+            padding: 30px 0;
+        }
+
+            .signup-form h2 {
+                color: #333;
+                margin: 0 0 30px 0;
+                display: inline-block;
+                padding: 0 30px 10px 0;
+                border-bottom: 3px solid #5cd3b4;
+            }
+
+            .signup-form form {
+                color: #999;
+                border-radius: 3px;
+                margin-bottom: 15px;
+                background: #fff;
+                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+                padding: 30px;
+            }
+
+            .signup-form .form-group {
+                margin-bottom: 20px;
+            }
+
+            .signup-form label {
+                font-weight: normal;
+                font-size: 13px;
+            }
+
+            .signup-form input[type="checkbox"] {
+                margin-top: 2px;
+            }
+
+            .signup-form .btn {
+                font-size: 16px;
+                font-weight: bold;
+                background: #5cd3b4;
+                border: none;
+                margin-top: 20px;
+                min-width: 140px;
+            }
+
+                .signup-form .btn:hover, .signup-form .btn:focus {
+                    background: #41cba9;
+                    outline: none !important;
+                }
+
+            .signup-form a {
+                color: #5cd3b4;
+                text-decoration: underline;
+            }
+
+                .signup-form a:hover {
+                    text-decoration: none;
+                }
+
+            .signup-form form a {
+                color: #5cd3b4;
+                text-decoration: none;
+            }
+
+                .signup-form form a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+        <div class="signup-form">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*<form action="/examples/actions/confirmation.php" method="post" class="form-horizontal">*@
+            <div class="form-horizontal">
+
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4">Query type</label>
+                    <div class="col-xs-8">
+                        @*@Html.DropDownList("Issue", (IEnumerable<SelectListItem>)ViewBag.Issue, new { @class = "form-control" })*@
+                        @Html.DropDownList("Issue", (IEnumerable<SelectListItem>)ViewBag.IssueList, new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label col-xs-4"></label>
+                    <div class="col-xs-8">
+                        @Html.TextAreaFor(Model => Model.descriptiontext, new { @class = "form-control", columns = 40, rows = 10 })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                    </div>
+                </div>
+                @*</form>*@
+            </div>
+            @*<div class="text-center">Already have an account? @Html.ActionLink("Login", "LoginPage", "Register")</div>*@
+        </div>
+    }
+</body>
+</html>
+
+@if (ViewBag.Message != null)
+{
+    <script>
+
+        $(document).ready(function () {
+
+            alert('Posted Successfully');
+
+        });
+
+    </script>
+
+}

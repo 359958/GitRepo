@@ -1,0 +1,66 @@
+﻿@model  IEnumerable<WebAppMovie.Models.BookMovieTicket>
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">Ticket Details</h4>
+    </div>
+    <table class="table" id="CustomerGrid">
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookinID)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookinID)
+                </td>
+            </tr>
+            <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieName)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.MovieName)
+            </td>
+                </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ShowDate)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShowDate)
+                </td>
+                </tr>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.ScreenName)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScreenName)
+                </td>
+                </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.SeatDetails)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeatDetails)
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+            </tr>
+
+
+           
+
+        }
+    </table>
+</div>

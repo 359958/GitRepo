@@ -1,0 +1,74 @@
+﻿@model WebAppMovie.Models.movieDetailsList
+@{
+    ViewBag.Title = "EditSeat";
+    Layout = "~/Views/Shared/_new.cshtml";
+}
+
+<h2>EditSeat</h2>
+
+<body>
+    @using (Html.BeginForm())
+    {
+
+        @Html.AntiForgeryToken()
+        <div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">First Class</label>
+                <div class="col-xs-8">
+                    @Html.TextBox("T1", new { @class = "form-control", columns = 40, rows = 10 })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">Second Class</label>
+                <div class="col-xs-8">
+                    @Html.TextBox("T1", new { @class = "form-control", columns = 40, rows = 10 })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-4">Third Class</label>
+                <div class="col-xs-8">
+                    @Html.TextBox("T1", new { @class = "form-control", columns = 40, rows = 10 })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8 col-xs-offset-4">
+                    <p><label class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a>.</label></p>
+                    <button type="submit" formaction="SaveAmount" class="btn btn-primary btn-lg">Save</button> <button type="submit" class="btn btn-primary btn-lg">Clear</button>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4">First Class</label>
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(Model => Model.Movie, new { @class = "form-control", columns = 40, rows = 10 })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4">Second Class</label>
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(Model => Model.Movie, new { @class = "form-control", columns = 40, rows = 10 })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4">Third Class</label>
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(Model => Model.Movie, new { @class = "form-control", columns = 40, rows = 10 })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-8 col-xs-offset-4">
+                        <p><label class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a>.</label></p>
+                        <button type="submit" formaction="SaveSeat" class="btn btn-primary btn-lg">Save</button> <button type="submit" class="btn btn-primary btn-lg">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+</body>
+

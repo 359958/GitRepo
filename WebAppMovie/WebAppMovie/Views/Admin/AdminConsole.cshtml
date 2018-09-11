@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "AdminConsole";
+    Layout = "~/Views/Shared/_new.cshtml";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/CSS/bootstrap.min.book.css">
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+   
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    
+
+    
+
+    <script>
+        var TeamDetailPostBackURL = '/Admin/AdminConsole';
+        $(function () {
+            $(".anchorDetail").click(function () {
+
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                alert(id);
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "type": id },
+                    datatype: "json",
+                    success: function (data) {
+
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function (XHR, errorText, status) {
+                        console.log(XHR.responseText);
+                    }
+                });
+            });
+        
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+    </script>
+    <style>
+      
+    </style>
+   
+</head>
+<body>
+    <h4>AdminConsole</h4>
+    <hr/>
+    <div id="mydiv16">
+
+        <table cellpadding="10" cellspacing="20">
+            <tr>
+                <td>  <img src="~/Content/image/Movie.png" /> <br />@Html.ActionLink("Add Movie", "AddMovie2", "Admin")</td>
+                <td><a href="#">&nbsp;</a></td>
+                <td>  <img src="~/Content/image/Seat.png" /> <br /> <a href="javascript:void(0);" class="anchorDetail" data-id="AddTicket">Add Seats</a></td>
+            </tr>
+
+            <tr>
+                <td>  <img src="~/Content/image/Feed.png" />    <br />  @Html.ActionLink("Feedback\\complients", "Complient", "Admin")</td>
+                <td></td>
+                <td>  <img src="~/Content/image/Movie.png" /> <br /> <a href="javascript:void(0);" class="anchorDetail" data-id="ChangePrice">Change Ticket Price</a></td>
+            </tr>
+
+        </table>
+
+    </div>
+    <div id='myModal' class='modal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent' align="center"></div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+    

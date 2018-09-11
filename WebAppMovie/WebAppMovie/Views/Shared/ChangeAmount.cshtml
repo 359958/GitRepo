@@ -1,0 +1,60 @@
+﻿@model WebAppMovie.Models.ChangePrice
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<
+<html>
+<head>
+
+</head>
+<body>
+    <div>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Ticket Details</h4>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <h2>AddSeat</h2>
+            <table>
+                <tbody>
+                   
+                    <tr>
+                        <th><label class="control-label col-xs-4">Name</label></th>
+                        <td> @Html.DropDownList("Classid", (IEnumerable<SelectListItem>)ViewBag.Class, new { @class = "form-control" })</td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label col-xs-4">Name</label></th>
+                        <td>@Html.TextBoxFor(model => model.Amount, null, null)</td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label col-xs-4">Name</label></th>
+                        <td><button type="submit" formaction="ChangePrice">Update Price</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        }
+    </div>
+</body>
+</html>
+
+@if (ViewBag.Message != null)
+{
+    <script>
+
+$(document).ready(function(){
+
+alert('Price Updated');
+
+});
+
+    </script>
+
+}

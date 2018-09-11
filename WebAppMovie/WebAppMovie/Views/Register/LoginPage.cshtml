@@ -1,0 +1,120 @@
+﻿@model WebAppMovie.Models.UsersLogin
+
+@{
+    Layout = "~/Views/Shared/_new.cshtml";
+}
+
+<link href="~/Content/CSS/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="~/Scripts/Boot/bootstrap.min.js"></script>
+<script src="~/Scripts/Boot/jquery.min.js"></script>
+<link href="~/Content/loginpage.css" rel="stylesheet" id="bootstrap-css">
+<!------ Include the above in your HEAD tag ---------->
+
+<html>
+<head>
+    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">*@
+    @*<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
+    <!------ Include the above in your HEAD tag ---------->
+
+    <script src="~/Scripts/Boot/popper.min.js"></script>
+    <style>
+        .main-div {
+            height: 290px;
+            width: 60%;
+            background-color: #ebedef;
+            align-items: inherit;
+            padding: 0.75rem 2.5rem 2.5rem;
+            border-radius: 4px;
+            
+        }
+
+        .carousel-inner img {
+            margin: 30px auto 40px;
+            width: 100%;
+            height: 10%;
+        }
+        #demo {
+            width: 50%;
+            height: 100px;
+            margin: 30px auto 70px;
+        }
+        .container1 {
+            width: 50%;
+            height: 320px;
+           
+            margin: 30px auto 40px;
+        }
+
+        .carousel-inner1 {
+            float: right;
+            margin: 30px auto 40px;
+            position: relative;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-control">
+        @*<div id="demo" class="carousel slide" data-ride="carousel" style="float:left">
+
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+            </ul>
+
+            <!-- The slideshow -->
+            <div class="carousel-inner .carousel-inner1">
+                <div class="carousel-item active">
+                    <img src="~/Content/image/ny.jpg" alt="Los Angeles" width="800" height="500">
+                </div>
+                <div class="carousel-item">
+                    <img src="~/Content/image/la.jpg" alt="Chicago" width="800" height="500">
+                </div>
+                <div class="carousel-item">
+                    <img src="~/Content/image/ny.jpg" alt="New York" width="800" height="500">
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>*@
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="container container1 col-lg-10" >
+                <h1 class="form-heading">Login Form</h1>
+                <div class="login-form">
+                    <div class="main-div">
+                        <h5>User Login</h5>
+                        
+                        
+                            <div class="form-group">
+
+                                <input type="email" class="form-control" id="inputEmail" name="UserName" placeholder="Email Address">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="inputPassword" name="Password"  placeholder="Password">
+                            </div>
+                            <div class="forgot">
+                                @Html.ActionLink("Singn Up", "CreateUser2", "Register")
+                            </div>
+                            <button type="submit" class="btn btn-primary" name="loginuser">Login</button>
+                       
+                    </div>
+
+                </div>
+            </div>
+        }
+        </div>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+﻿@model IEnumerable<WebAppMovie.Models.ComplientList>
+
+@{
+    ViewBag.Title = "Complient";
+    Layout = "~/Views/Shared/_new.cshtml";
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/CSS/bootstrap.min.book.css">
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="~/Content/bootstrap-datepicker3.css" />
+    <script>
+        $(document).ready(function () {
+            DatePicker();
+
+            function DatePicker() {
+                var dateToday = new Date();
+                var date_input = $('input[placeholder="MM/DD/YYY"]'); //our date input has the name "date"
+                var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+                var options = {
+                    format: 'mm/dd/yyyy',
+                    container: container,
+                    todayHighlight: true,
+                    orientation: "bottom right",
+                    autoclose: true,
+                    minDate: dateToday
+                };
+                date_input.datepicker(options);
+            }
+        });
+    </script>
+    <style>
+        .border-color {
+            background-color: #5dcdd2;
+            background-image: linear-gradient(to bottom, #5dcdd2, #5dcdd2);
+        }
+
+        .table tr {
+            margin-bottom: 6px;
+            display: block;
+            background-color: #EEEEEE;
+            border-radius: 4px;
+            align-items: center;
+            width: 90%;
+        }
+
+        .divCentre {
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h2>Complient</h2>
+    <br />
+
+    <label for="from">From</label>
+    <input type="text" id="from" name="from" placeholder="MM/DD/YYY" />
+
+    <label for="to">to</label>
+    <input type="text" id="to" name="to" placeholder="MM/DD/YYY" />
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    
+    <hr />
+    <table class="table">
+        <tr class="border-radius border-color">
+            <th>
+                @Html.DisplayName("User Name")
+            </th>
+            <th>
+                @Html.DisplayName("Issue type")
+            </th>
+            <th>
+                @Html.DisplayName("Issue Description")
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.compstatus)
+                </th>*@
+            <th>
+                @Html.DisplayName("Posted Date")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Issue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descriptiontext)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.compstatus)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.posteddate)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>*@
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

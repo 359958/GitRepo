@@ -1,0 +1,201 @@
+﻿@model IEnumerable<WebAppMovie.Models.movieDetailsList>
+
+@{
+    Layout = "~/Views/Shared/_new.cshtml";
+    WebGrid webGrid = new WebGrid(source: Model, canPage: true, canSort: false);
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+
+        .Grid {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+        }
+        .label {
+            color: #703a3a;
+        }
+
+        .Grid th {
+            background-color: #F7F7F7;
+            font-weight: bold;
+        }
+
+            .Grid th, .Grid td {
+                padding: 5px;
+                width: 150px;
+                border: 1px solid #ccc;
+                background-color: #F7F7F7;
+                text-decoration-color:black;
+            }
+
+            .Grid, .Grid table td {
+                border: 0px solid #ccc;
+            }
+
+                .Grid th a, .Grid th a:visited {
+                    color: #333;
+                }
+    </style>
+</head>
+<body>
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/Moviejs.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <script src="~/Scripts/modernizr-2.6.2.js"></script>*@
+    @*<script src="~/Scripts/Moviejs.js"></script>*@
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <p>
+        @Html.ActionLink("Go To Add", "AddMovie")
+    </p>
+    <div>
+        @*<table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Screen)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Movie)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RunningUpto)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Screen)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Movie)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RunningUpto)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>
+                    </tr>
+                }
+
+            </table>*@
+
+    </div>
+    @webGrid.GetHtml(
+        htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+        columns: webGrid.Columns(
+       webGrid.Column(header: "Screen", format: @<span class="label">@item.Screen</span>, style: "Screen"),
+            webGrid.Column(header: "Movie", format: @<span class="label">@item.Movie</span>, style: "Movie"),
+                    webGrid.Column(header: "Date", format: @<span>
+                        <span class="label">@item.RunningUpto</span>
+                        @*<input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text" />*@
+
+                        <input class="text" type="text" id="date" name="date" placeholder="MM/DD/YYY" value="@item.RunningUpto" style="display:none" />
+                    </span>, style: "Date"),
+
+                                                                      webGrid.Column(format:@<span class="link">
+                                                                        <a class="Edit" href="javascript:;">Edit</a>
+                                                                        <a class="Update" href="javascript:;" style="display:none">Update</a>
+                                                                        <a class="Cancel" href="javascript:;" style="display:none">Cancel</a>
+                                                                    </span>),
+                                                                                          webGrid.Column(format:@<span class="link">
+                                                                                            <a class="Edit" href="javascript:;">Delete</a>
+
+                                                                                        </span>)))
+
+
+    <script type="text/javascript">
+        //Edit event handler.
+        $("body").on("click", "#WebGrid TBODY .Edit", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    $(this).find(".text").show();
+                    $(this).find(".label").hide();
+                }
+            });
+            row.find(".Update").show();
+            row.find(".Cancel").show();
+            $(this).hide();
+        });
+
+        //Update event handler.
+        $("body").on("click", "#WebGrid TBODY .Update", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".label");
+                    var input = $(this).find(".text");
+                    span.html(input.val());
+                    span.show();
+                    input.hide();
+                  
+                }
+            });
+            row.find(".Edit").show();
+            row.find(".Cancel").hide();
+            $(this).hide();
+           
+
+            var UpdateMovieData = {
+                Screen: row.find(".label").html(),
+                Movie: row.find(".Movie").find(".label").html(),
+                RunningUpto: row.find(".Date .label").html()
+
+            };
+            alert(UpdateMovieData.Movie);
+            alert(UpdateMovieData.RunningUpto);
+            if (UpdateMovieData != null) {
+                alert('ij');
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:60683/api/Admin/UpdateMovie",
+                    data: UpdateMovieData,
+                    success: function (data) {
+                        alert('hi');
+                    },
+                    error: function (response) {
+                        alert('bye');
+                    }
+                });
+            }
+        });
+
+        //Cancel event handler.
+        $("body").on("click", "#WebGrid TBODY .Cancel", function () {
+            var row = $(this).closest("tr");
+            $("td", row).each(function () {
+                if ($(this).find(".text").length > 0) {
+                    var span = $(this).find(".label");
+                    var input = $(this).find(".text");
+                    input.val(span.html());
+                    span.show();
+                    input.hide();
+                }
+            });
+            row.find(".Edit").show();
+            row.find(".Update").hide();
+            $(this).hide();
+        });
+    </script>
+</body>
+</html>
+

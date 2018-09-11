@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>The Cinimas</title>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+
+    @*@RenderSection("scripts")*@
+
+
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+
+
+
+    <style>
+        #divBdr {
+            height: 80px;
+            width: 100%;
+            background-color: rgb(10, 57, 86);
+            border-radius: 4px;
+        }
+
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            background: #ffffff;
+        }
+
+        #nav {
+            margin-top: 10px;
+            /*border-bottom: 3px solid #47c9af;*/
+            height: 30px;
+            width: 800px;
+        }
+
+        #hdr ul .c1 {
+            display: inline;
+            background-color: #fff;
+            padding: 10px;
+        }
+
+        #nav ul li {
+            display: inline;
+            align: right;
+        }
+
+            #nav ul li a {
+                font-size: 18px;
+                color: #ffffff;
+                padding: 50px 5px;
+                
+                /*border-bottom: 3px solid #47c9af;*/
+            }
+
+                #nav ul li a:hover {
+                    color: #ffffff;
+                }
+
+        #hdr {
+            background-color: #77cc6d;
+            width: 100%;
+            border-radius: 4px;
+            height:50px;
+        }
+        footer {
+            background-color: #5b5c5d;
+        }
+    </style>
+    <br/>
+    
+  
+</head>
+<body>
+    <div ><img src="~/Content/image/color.png" height="35" /></div>
+    
+    <div id="hdr">
+
+
+        <div id="nav">
+            <!-- this navigation menu is basically just an unordered list -->
+            <ul>
+
+                <li><a href="/">Home</a></li>
+                <li> @Html.ActionLink("TicketsAvaliblity", "TicketsAvaliblity", "BookMovie")</li>
+                @if (Session["UserID"].ToString() != "Admin")
+                {
+                    <li>
+                        @if (Request.IsAuthenticated)
+                        {
+
+                            @Html.ActionLink("My Bookings", "Mybookings", "BookMovie")
+                        }
+                    </li>
+                    <li>
+                        @if (Request.IsAuthenticated)
+                        {
+
+                            @Html.ActionLink("Contact Us", "Complient", "BookMovie")
+                        }
+                    </li>
+                    <li>
+                        @if (Request.IsAuthenticated)
+                        {
+
+                            @Html.ActionLink("Book Tickets", "BookMovie2", "BookMovie")
+                        }
+                    </li>
+
+                    <li>
+                        @if (Request.IsAuthenticated)
+                        {
+
+                            @Html.ActionLink("My Profile", "EditUserProfile", "Register")
+                        }
+                    </li>
+
+                }
+                <li>
+
+                    @if (Request.IsAuthenticated)
+                    {
+
+                        @Html.ActionLink("Log Out", "LogOut", "Register")
+                    }
+
+
+                </li>
+
+                <li>
+                    <br />
+                    @if (Session["UserID"].ToString() == "Admin")
+                    {
+                        if (Request.IsAuthenticated)
+                        {
+
+                            @Html.ActionLink("Admin", "AdminConsole", "Admin")
+                        }
+                    }
+
+
+
+                </li>
+                <li>
+
+
+
+
+                </li>
+                <li>
+
+
+
+
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="panel-body">
+        @RenderBody()
+        <hr />
+    </div>
+    <footer class="panel-footer">
+
+        <div class="footer-right">
+
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-linkedin"></i></a>
+            <a href="#"><i class="fa fa-github"></i></a>
+
+        </div>
+
+        <div class="footer-left">
+
+
+
+            <p>Company Name © 2015</p>
+        </div>
+
+    </footer>
+</body>
+
+</html>

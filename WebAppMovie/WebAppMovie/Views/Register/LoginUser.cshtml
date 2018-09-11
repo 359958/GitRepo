@@ -1,0 +1,75 @@
+﻿@model WebAppMovie.Models.UsersLogin
+
+@{
+    Layout = "~/Views/Shared/_new.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LoginUser</title>
+
+    <style>
+     
+    </style>
+
+</head>
+<body>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    @*<script src="~/Scripts/Moviejs.js"></script>*@
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div align="center" class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Label("Welcome New Cinimas", htmlAttributes: new { @class = "form-control" })
+        <br />
+        <br />
+        <div class="form-group">
+            @Html.Label("User Name:", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Log In" class="btn btn-default" />
+            </div>
+        </div>
+        <br />
+        
+        <br />
+        <div class="col-md-offset-2 col-md-10">
+            If New User please sign Up Here :
+            @*<input type="button" id="btnSinup" value="Sign Up" class="btn btn-default" onclick="window.location.href('@Url.Action("CreateUser","Register")')" />*@
+            <input type='submit' value='Sign up' formaction="Signup"  class="btn btn-default" />
+        </div>
+    </div>
+    }
+
+   
+</body>
+</html>
