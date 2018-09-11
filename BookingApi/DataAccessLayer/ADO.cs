@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace DataAccessLayer
 {
@@ -17,8 +18,8 @@ namespace DataAccessLayer
         bool IsInsert = false;
         public MovieCustReg()
         {
-            //string connectionString = ConfigurationManager.ConnectionStrings["DBConnect"].ConnectionString;
-            Conn = new SqlConnection(@"Data Source=B2ML28043\SQLEXPRESS;Initial Catalog=Movie;Integrated Security=True");
+            string connectionString = ConfigurationManager.AppSettings["MovieDBConnect"];
+            Conn = new SqlConnection(@"Server = tcp:301chennai.database.windows.net, 1433; Initial Catalog = Movie; Persist Security Info = False; User ID = chennai; Password =Mindtree@123; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;");
         }
         public SqlConnection DBConnection()
         {
