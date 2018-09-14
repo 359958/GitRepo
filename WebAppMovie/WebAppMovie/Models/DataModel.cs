@@ -54,12 +54,30 @@ namespace WebAppMovie.Models
         public string MovieID { get; set; }
     }
 
+    public class MovieDetailsdelete
+    {
+        public string MovieName { get; set; }
+        public string MovieId { get; set; }
+        public string ImagePath { get; set; }
+        public string FC { get; set; }
+        public string SC { get; set; }
+        public string TC { get; set; }
+        public string Upto { get; set; }
+    }
+
+    public class Showdates
+    {
+        public DateTime AllDays { get; set; }
+    }
+
     public class movieDetailsList
     {
         public string Screen { get; set; }
         public string Movie { get; set; }
         public DateTime RunningUpto { get; set; }
         public DateTime From { get; set; }
+        public string path { get; set; }
+
     }
 
     public class BookMovie
@@ -136,5 +154,18 @@ namespace WebAppMovie.Models
             public string posteddate { get; set; }
 
         }
+
+    public class TicketAvaliblity
+    {
+        public string Screen { get; set; }
+        public string ClassType { get; set; }
+        public int s1 { get; set; }
+        public int s2 { get; set; }
+        public int s3 { get; set; }
+        public int s4 { get; set; }
+
+    }
+
+    
 
 }

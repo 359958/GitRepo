@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "BookMovie2";
-    Layout = "~/Views/Shared/_new.cshtml";
+    Layout = "~/Views/Shared/_Ver2.cshtml";
 }
 
 <h4>Book Movie</h4>
@@ -106,7 +106,8 @@
     <script>
 
             $(function () {
-
+                
+                
                 @*@if (ViewBag.Message != null)
                 {
                     alert('@ViewBag.Message');
@@ -119,11 +120,13 @@
                     });});
 
         function DateLoad(MovieId) {
+            var apiUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebapiUrl"].ToString())';
+            alert(apiUrl);
           
-                var TeamDetailPostBackURL = 'http://localhost:60683/api/BookMovie/MovieDate';
+            var TeamDetailPostBackURL = apiUrl +'/BookMovie/GetMovieDate';
                 $.ajax({
                     type: "GET",
-                    url: "http://localhost:60683/api/BookMovie/GetMovieDate",
+                    url: TeamDetailPostBackURL,
                     
                     data: { "MovieId": MovieId },
                     datatype: "json",

@@ -15,17 +15,68 @@ namespace WebAppMovie.Controllers
 {
     public class BookMovieController : Controller
     {
+        string webapiurl = System.Configuration.ConfigurationManager.AppSettings["WebapiUrl"].ToString();
         // GET: BookMovie
         string userid = System.Web.HttpContext.Current.Session["CID"].ToString();
-        public ActionResult BookMovie2()
+        [HttpGet]
+        public ActionResult BookMovie2(string Id)
+
         {
-            ViewBag.Movie = BooKMovieDetails();
+            //ViewBag.Movie = BooKMovieDetails();
+            var chk = GetMovieDate(Id);
+            ViewBag.Date= chk.Distinct().Select(i => new SelectListItem() { Text = i.AllDays.ToString(), Value = i.AllDays.ToString() }).ToList();
+            var outp = BooKMovieDetails();
+            var linq = outp.Where(x => x.MovieID == Id).Select(x => new { x.MovieID, x.MovieName }).ToList();
+            MovieDetails obj = new MovieDetails();
+            foreach (var item in linq)
+            {
+                obj.MovieID = item.MovieID;
+                obj.MovieName = item.MovieName;
+            }
+            
+            
             ViewBag.Classid = DropDown.Classid();
             ViewBag.Showid = DropDown.Showid();
             ViewBag.NoTickets = DropDown.NoTickets();
+            return PartialView("DeletePart", obj);
+        }
+
+        public ActionResult test()
+        {
             return View();
         }
 
+        public List<Showdates> GetMovieDate(string MovieID)
+        {
+            
+            var list = new List<BookMovieTicket>();
+
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response;
+            response = httpClient.GetAsync(webapiurl + "/BookMovie/GetMovieDate?MovieId=" + MovieID).Result;
+            response.EnsureSuccessStatusCode();
+            List<Showdates> stateList = response.Content.ReadAsAsync<List<Showdates>>().Result;
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    using (HttpContent content = response.Content)
+            //    {
+            //        string jsonS = response.Content.ReadAsStringAsync().Result;
+            //        var ds = JsonConvert.DeserializeObject(jsonS);
+            //        return ds;
+            //    }
+            //}
+
+            if (!object.Equals(stateList, null))
+            {
+                var states = stateList.ToList();
+                return states;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public ActionResult Mybookings()
         {
             var output = MyTickets(userid);
@@ -40,7 +91,7 @@ namespace WebAppMovie.Controllers
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response;
-            response = httpClient.GetAsync("http://localhost:60683/api" + "/BookMovie/MyBooking?cusid=" + uid.ToString()).Result;
+            response = httpClient.GetAsync(webapiurl + "/BookMovie/MyBooking?cusid=" + uid.ToString()).Result;
             response.EnsureSuccessStatusCode();
             List<BookMovieTicket> stateList = response.Content.ReadAsAsync<List<BookMovieTicket>>().Result;
             if (!object.Equals(stateList, null))
@@ -129,7 +180,7 @@ namespace WebAppMovie.Controllers
             {
                 string stringData = JsonConvert.SerializeObject(obj);
                 var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PostAsync("http://localhost:60683/api" + "/BookMovie/BookTicket", contentData).Result;
+                HttpResponseMessage response = client.PostAsync(webapiurl + "/BookMovie/BookTicket", contentData).Result;
                 var list = response.Content.ReadAsStringAsync().Result;
                 return list;
             }
@@ -161,7 +212,7 @@ namespace WebAppMovie.Controllers
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response;
-            response = httpClient.GetAsync("http://localhost:60683/api" + "/BookMovie/Get?bookid=" + bookid.ToString()).Result;
+            response = httpClient.GetAsync(webapiurl + "/BookMovie/Get?bookid=" + bookid.ToString()).Result;
             response.EnsureSuccessStatusCode();
             List<BookMovieTicket> stateList = response.Content.ReadAsAsync<List<BookMovieTicket>>().Result;
             if (!object.Equals(stateList, null))
@@ -180,9 +231,29 @@ namespace WebAppMovie.Controllers
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response;
-            response = httpClient.GetAsync("http://localhost:60683/api" + "/Register/GetAllMovie").Result;
+            response = httpClient.GetAsync(webapiurl + "/Register/GetAllMovie").Result;
             response.EnsureSuccessStatusCode();
             List<MovieDetails> stateList = response.Content.ReadAsAsync<List<MovieDetails>>().Result;
+            if (!object.Equals(stateList, null))
+            {
+                var states = stateList.ToList();
+                return states;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<MovieDetailsdelete> BooKMovieDetailsTODelete()
+        {
+            var list = new List<MovieDetails>();
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response;
+            response = httpClient.GetAsync(webapiurl + "/Register/GetAllMovie").Result;
+            response.EnsureSuccessStatusCode();
+            List<MovieDetailsdelete> stateList = response.Content.ReadAsAsync<List<MovieDetailsdelete>>().Result;
             if (!object.Equals(stateList, null))
             {
                 var states = stateList.ToList();
@@ -202,6 +273,16 @@ namespace WebAppMovie.Controllers
 
         // GET: BookMovie/Create
         public ActionResult Create()
+        {
+            return View();
+        }
+
+        public ActionResult View1()
+        {
+            var obj = BooKMovieDetailsTODelete();
+            return View(obj);
+        }
+        public ActionResult View2()
         {
             return View();
         }
@@ -303,7 +384,7 @@ namespace WebAppMovie.Controllers
             {
                 string stringData = JsonConvert.SerializeObject(obj);
                 var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PostAsync("http://localhost:60683/api" + "/BookMovie/" + view, contentData).Result;
+                HttpResponseMessage response = client.PostAsync(webapiurl + "/BookMovie/" + view, contentData).Result;
                 var list = response.Content.ReadAsStringAsync().Result;
                 return list;
             }

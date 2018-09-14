@@ -1,0 +1,127 @@
+﻿<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View2</title>
+    <link rel="stylesheet" href="~/Content/CSS/all.css">
+    <link rel="stylesheet" href="~/Content/CSS/menu.css">
+    <link rel="stylesheet" href="~/Content/CSS/layout.css">
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />*@
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+
+    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
+
+</head>
+<body>
+    <div>
+        <img src="~/Content/image/3.png" height="20%" width="20%"/>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto" id="menulist">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                @if (Session["UserID"].ToString() != "Admin")
+                {
+                    <li class="nav-item">
+                        @if (Request.IsAuthenticated)
+                        {@Html.ActionLink("My Bookings", "Mybookings", "BookMovie")}
+
+
+                    </li>
+                    <li class="nav-item">
+                        @if (Request.IsAuthenticated)
+                        {@Html.ActionLink("Contact Us", "Complient", "BookMovie")}
+
+                    </li>
+                    <li class="nav-item">
+                        @if (Request.IsAuthenticated)
+                        {@Html.ActionLink("My Profile", "EditUserProfile", "Register")}
+
+                    </li>
+
+                    @*<li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>*@
+                    <li class="nav-item">
+                        @if (Request.IsAuthenticated)
+                        {@Html.ActionLink("Book Tickets", "View1", "BookMovie")}
+
+                    </li>
+
+                    <li>
+
+                        @if (Request.IsAuthenticated)
+                        {
+
+                            @Html.ActionLink("Log Out", "LogOut", "Register")
+                        }
+
+
+                    </li>
+                    <li>
+                        @if (Request.IsAuthenticated)
+                        {@Html.ActionLink("TicketsAvaliblity", "TicketsAvaliblity", "BookMovie")}
+                    </li>
+
+                }
+                else
+                {
+                    <li>
+                        @if (Request.IsAuthenticated)
+                        {@Html.ActionLink("Admin", "AdminConsole", "Admin")}
+
+                    </li>
+                    <li>
+
+                        @if (Request.IsAuthenticated)
+                        {
+
+                            @Html.ActionLink("Log Out", "LogOut", "Register")
+                        }
+
+
+                    </li>
+                }
+
+
+            </ul>
+           
+            
+        </div>
+        
+    </nav>
+    @*----------------Render body------------*@
+    <div>@RenderBody()</div>
+        
+    
+        
+    
+    <div class="divascookies" style="bottom: 0px; top: auto; display: block; height:5%">
+    <div class="divascookies-banner-container">
+        <p class="divascookies-banner-text">
+            <span class="divascookies-policy-link"></span>
+        </p>
+    </div>
+</div>
+    
+
+</body>
+</html>
+
+

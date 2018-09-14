@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace WebAppMovie.Models
 {
@@ -73,7 +77,16 @@ namespace WebAppMovie.Models
 
             return IssueList.AsEnumerable();
         }
+
+        public static CloudStorageAccount GetConnectionString()
+        {
+            string accountname = ConfigurationManager.AppSettings["accountName"];
+            string key = ConfigurationManager.AppSettings["key"];
+            string connectionString = string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}", accountname, key);
+            return CloudStorageAccount.Parse(connectionString);
+        }
+
     }
 
-    
+
 }

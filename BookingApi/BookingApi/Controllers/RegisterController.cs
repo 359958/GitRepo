@@ -107,9 +107,10 @@ namespace BookingApi.Controllers
             HttpResponseMessage response;
             try
             {
-                var movieResponse = objReg.MovieRunning();
+                //var movieResponse = objReg.MovieRunning();
+                var movieResponse = objReg.MovieRunningtodelete();
                 if (movieResponse != null)
-                    response = Request.CreateResponse<List<movieDetails>>(HttpStatusCode.OK, movieResponse);
+                    response = Request.CreateResponse<List<MovieDetailsdelete>>(HttpStatusCode.OK, movieResponse);
                 else
 
                     response = new HttpResponseMessage(HttpStatusCode.NotFound);

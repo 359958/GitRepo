@@ -182,5 +182,26 @@ namespace BookingApi.Controllers
 
             }
         }
+
+        [HttpGet, ActionName("Emailtrigger")]
+        public HttpResponseMessage Emailtrigger()
+        {
+            HttpResponseMessage response;
+            try
+            {
+                var email = objReg.EmailTrigger();
+                if (email != null)
+                    response = Request.CreateResponse(HttpStatusCode.OK, email);
+                else
+
+                    response = new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+
+            }
+            return response;
+        }
     }
 }

@@ -9,11 +9,17 @@ using WebAppMovie.Models;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using System.IO;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System.Configuration;
 
 namespace WebAppMovie.Controllers
 {
     public class AdminController : Controller
     {
+        string webapiurl = System.Configuration.ConfigurationManager.AppSettings["WebapiUrl"].ToString();
         // GET: Admin
         public ActionResult Index()
         {
@@ -39,9 +45,45 @@ namespace WebAppMovie.Controllers
         }
         
         [HttpPost]
-        public ActionResult AddMovie2(movieDetailsList obj)
+        public ActionResult AddMovie2(FormCollection form)
         {
-            var res = AddMovieindb(obj);
+            string Screen = form["Screen"];
+            string Movie = form["Movie"];
+            string From = form["From"];
+            string RunningUpto = form["RunningUpto"];
+            string filePath = string.Empty;
+            string url = string.Empty;
+            if (Request.Files.Count > 0)
+            {
+                int i = 0;
+                CloudStorageAccount cloudStorageAccount = DropDown.GetConnectionString();
+                CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(ConfigurationManager.AppSettings["ContainerName"]);
+                cloudBlobContainer.CreateIfNotExists();
+                foreach (string files in Request.Files)
+                {
+                    string fileName = Path.GetFileName(Request.Files[i].FileName);
+                    CloudBlockBlob azureBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
+                    azureBlockBlob.UploadFromStream(Request.Files[i].InputStream);
+
+                    //var postedFile = Request.Files[file];
+                    //filePath = Server.MapPath("~/Content/images/" + postedFile.FileName);
+                    //postedFile.SaveAs(filePath);
+                    i++;
+                    url = azureBlockBlob.Uri.ToString();
+
+                }
+            }
+            //int str= filePath.IndexOf("Content");
+            //int str1 = filePath.Length;
+            string s = @"\Content\images\EN.jpg";//filePath.Substring(str, str1-str);
+            movieDetailsList obj = new movieDetailsList();
+            obj.Screen = Screen;
+            obj.Movie = Movie;
+            obj.From = Convert.ToDateTime(From);
+            obj.RunningUpto = Convert.ToDateTime(RunningUpto);
+            obj.path = url;
+              var res = AddMovieindb(obj);
             if (res.Contains("Successfully"))
             {
                 ViewBag.Message = res;
@@ -98,7 +140,7 @@ namespace WebAppMovie.Controllers
             {
                 string stringData = JsonConvert.SerializeObject(obj);
                 var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PostAsync("http://localhost:60683/api" + "/Admin/AddMovie", contentData).Result;
+                HttpResponseMessage response = client.PostAsync(webapiurl + "/Admin/AddMovie", contentData).Result;
                 var list = response.Content.ReadAsStringAsync().Result;
                 return list;
             }
@@ -110,7 +152,7 @@ namespace WebAppMovie.Controllers
             {
                 string stringData = JsonConvert.SerializeObject(obj);
                 var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PostAsync("http://localhost:60683/api" + "/Admin/UpdatePrice", contentData).Result;
+                HttpResponseMessage response = client.PostAsync(webapiurl + "/Admin/UpdatePrice", contentData).Result;
                 var list = response.Content.ReadAsStringAsync().Result;
                 return list;
             }
@@ -122,7 +164,7 @@ namespace WebAppMovie.Controllers
             {
                 string stringData = JsonConvert.SerializeObject(obj);
                 var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PostAsync("http://localhost:60683/api" + "/Admin/UpdatePrice", contentData).Result;
+                HttpResponseMessage response = client.PostAsync(webapiurl + "/Admin/UpdatePrice", contentData).Result;
                 var list = response.Content.ReadAsStringAsync().Result;
                 return list;
             }
@@ -135,7 +177,7 @@ namespace WebAppMovie.Controllers
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response;
-            response = httpClient.GetAsync("http://localhost:60683/api" + "/admin/GetMovieRunning").Result;
+            response = httpClient.GetAsync(webapiurl + "/admin/GetMovieRunning").Result;
             response.EnsureSuccessStatusCode();
             List<movieDetailsList> stateList = response.Content.ReadAsAsync<List<movieDetailsList>>().Result;
             if (!object.Equals(stateList, null))
@@ -156,7 +198,7 @@ namespace WebAppMovie.Controllers
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response;
-            response = httpClient.GetAsync("http://localhost:60683/api" + "/admin/GetComplients").Result;
+            response = httpClient.GetAsync(webapiurl + "/admin/GetComplients").Result;
             response.EnsureSuccessStatusCode();
             List<ComplientList> stateList = response.Content.ReadAsAsync<List<ComplientList>>().Result;
             if (!object.Equals(stateList, null))

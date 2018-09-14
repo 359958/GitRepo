@@ -18,8 +18,9 @@ namespace DataAccessLayer
         bool IsInsert = false;
         public MovieCustReg()
         {
-            string connectionString = ConfigurationManager.AppSettings["MovieDBConnect"];
-            Conn = new SqlConnection(@"Server = tcp:301chennai.database.windows.net, 1433; Initial Catalog = Movie; Persist Security Info = False; User ID = chennai; Password =Mindtree@123; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;");
+            string connectionString = ConfigurationManager.ConnectionStrings["SqlConn"].ConnectionString;//ConfigurationManager.AppSettings["MovieDBConnect"];
+            Conn = new SqlConnection(connectionString);
+          //  Conn = new SqlConnection(@"Data Source=B2ML28043\SQLEXPRESS;Initial Catalog=Movie;Integrated Security=True");
         }
         public SqlConnection DBConnection()
         {
@@ -196,7 +197,8 @@ namespace DataAccessLayer
         {
             List<movieDetails> lst = new List<movieDetails>();
             DataSet ds = new DataSet();
-            query = " Select distinct MS.MovieId,MS.MovieName from Movie_Showing MS where MS.Runningdate >= GETDATE()";
+            //query = " Select distinct MS.MovieId,MS.MovieName from Movie_Showing MS where MS.Runningdate >= GETDATE()";
+            query = "Select Moviename , path ,c1,c2,c3 from todelete";
             ds = SQLCommand(query);
             if (ds.Tables[0].Rows.Count > 0)
             {
@@ -206,6 +208,38 @@ namespace DataAccessLayer
                   MovieID = row.Field<string>(0),
                   MovieName = row.Field<string>(1)
               }).ToList();
+            }
+            return lst;
+        }
+
+        public List<MovieDetailsdelete> MovieRunningtodelete()
+        {
+            List<MovieDetailsdelete> lst = new List<MovieDetailsdelete>();
+            Adapter = new SqlDataAdapter();
+            using (SqlCommand myCommand = new SqlCommand())
+            {
+                DataTable dataTable = new DataTable();
+                dataTable = null;
+                DataSet ds = new DataSet();
+                myCommand.Connection = DBConnection();
+                myCommand.CommandType = CommandType.StoredProcedure;
+                myCommand.CommandText = "spGetMovieShowingDetails";
+                Adapter.SelectCommand = myCommand;
+                Adapter.Fill(ds);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    lst = ds.Tables[0].AsEnumerable()
+                  .Select(row => new MovieDetailsdelete
+                  {
+                      MovieId = row.Field<string>(0),
+                      MovieName = row.Field<string>(1),
+                      ImagePath = row.Field<string>(2),
+                      Upto = row.Field<DateTime>(3),
+                      FC = row.Field<int>(4),
+                      SC = row.Field<int>(5),
+                      TC = row.Field<int>(6)
+                  }).ToList();
+                }
             }
             return lst;
         }
@@ -226,7 +260,7 @@ namespace DataAccessLayer
                 return ds.Tables[0];
             }
 
-            }
+        }
 
         public bool AdminAddMovie(movieDetailsList obj)
         {
@@ -247,7 +281,34 @@ namespace DataAccessLayer
                     objCmd.Parameters.Add("@Runningdate", SqlDbType.VarChar, 50).Value = obj.RunningUpto;
                     objCmd.Parameters.Add("@ScreenName", SqlDbType.VarChar, 50).Value = obj.Screen;
                     objCmd.Parameters.Add("@MovieName", SqlDbType.VarChar, 50).Value = obj.Movie;
-                    
+                    objCmd.Parameters.Add("@Path", SqlDbType.NVarChar, 500).Value = obj.path;
+
+                    IsInsert = objCmd.ExecuteNonQuery() > 0 ? true : false;
+                    Conn.Close();
+                    return IsInsert;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public bool EmailTrigger()
+        {
+            try
+            {
+                //  query = "INSERT INTO dbo.Movie_Showing (From,Runningdate, ScreenName, MovieName) " +
+                // "VALUES (@From,@Runningdate, @ScreenName, @MovieName)";
+                Adapter = new SqlDataAdapter();
+                using (SqlCommand objCmd = new SqlCommand("SpScheduler", DBConnection()))
+                {
+                   
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+
+
                     IsInsert = objCmd.ExecuteNonQuery() > 0 ? true : false;
                     Conn.Close();
                     return IsInsert;

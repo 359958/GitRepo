@@ -16,6 +16,8 @@ namespace WebAppMovie.Controllers
 {
     public class RegisterController : Controller
     {
+
+        string webapiurl = System.Configuration.ConfigurationManager.AppSettings["WebapiUrl"].ToString();
         // GET: Register
         string JsonData = string.Empty;
 
@@ -54,7 +56,7 @@ namespace WebAppMovie.Controllers
             {
                 string stringData = JsonConvert.SerializeObject(obj);
                 var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PostAsync("http://localhost:60683/api" + "/Register/createUser", contentData).Result;
+                HttpResponseMessage response = client.PostAsync(webapiurl + "/Register/createUser", contentData).Result;
                 var list = response.Content.ReadAsStringAsync().Result;
                 return list;
                 
@@ -91,7 +93,7 @@ namespace WebAppMovie.Controllers
             {
 
                 FormsAuthentication.SetAuthCookie(cook, false);
-                return RedirectToAction("BookMovie2", "BookMovie");
+                return RedirectToAction("view1", "BookMovie");
             }
             else
                 return View();
@@ -141,7 +143,7 @@ namespace WebAppMovie.Controllers
             {
                 string stringData = JsonConvert.SerializeObject(obj);
                 var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PostAsync("http://localhost:60683/api" + "/Register/"+view, contentData).Result;
+                HttpResponseMessage response = client.PostAsync(webapiurl + "/Register/"+view, contentData).Result;
                 var list = response.Content.ReadAsStringAsync().Result;
                 return list;
             }
@@ -154,7 +156,7 @@ namespace WebAppMovie.Controllers
             //{
             //    string stringData = JsonConvert.SerializeObject(obj);
             //    var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
-            //    HttpResponseMessage response = client.PostAsync("http://localhost:60683/api" + "/Register/loginUser", contentData).Result;
+            //    HttpResponseMessage response = client.PostAsync(webapiurl + "/Register/loginUser", contentData).Result;
             // var list  = response.Content.ReadAsStringAsync().Result;
             //    return list;
             //}
@@ -265,7 +267,7 @@ namespace WebAppMovie.Controllers
             {
                 string stringData = JsonConvert.SerializeObject(obj);
                 var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PostAsync("http://localhost:60683/api" + "/Register/UpdateUser", contentData).Result;
+                HttpResponseMessage response = client.PostAsync(webapiurl + "/Register/UpdateUser", contentData).Result;
                 var list = response.Content.ReadAsStringAsync().Result;
                 return list;
 
@@ -279,7 +281,7 @@ namespace WebAppMovie.Controllers
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response;
-            response = httpClient.GetAsync("http://localhost:60683/api" + "/Register/GetUserProfile?cusid=" + userid).Result;
+            response = httpClient.GetAsync(webapiurl + "/Register/GetUserProfile?cusid=" + userid).Result;
             response.EnsureSuccessStatusCode();
             List<UserDetails> stateList = response.Content.ReadAsAsync<List<UserDetails>>().Result;
 

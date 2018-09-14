@@ -48,10 +48,17 @@
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=9.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.9.3.1\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -109,13 +116,24 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap-datepicker3.css" />
+    <Content Include="Content\CSS\all.css" />
+    <Content Include="Content\CSS\BOOKMYSHOOW.CSS" />
     <Content Include="Content\CSS\bootstrap.min.css" />
     <Content Include="Content\CSS\bootstrap.min.book.css" />
+    <Content Include="Content\CSS\delete.css" />
+    <Content Include="Content\CSS\gridcss.css" />
+    <Content Include="Content\CSS\layout.css" />
+    <Content Include="Content\CSS\menu.css" />
+    <Content Include="Content\CSS\Roll.css" />
+    <Content Include="Content\image\2.png" />
+    <Content Include="Content\image\3.png" />
     <Content Include="Content\image\color.png" />
     <Content Include="Content\image\country-quilt.png" />
     <Content Include="Content\image\Feed.png" />
     <Content Include="Content\image\Footer.png" />
     <Content Include="Content\image\hover.gif" />
+    <Content Include="Content\image\imagemovie.jpg" />
+    <Content Include="Content\image\l.jpg" />
     <Content Include="Content\image\la.jpg" />
     <Content Include="Content\image\logo-transparent.png" />
     <Content Include="Content\image\Logo.png" />
@@ -135,6 +153,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Properties\PublishProfiles\WebAppMovie20180912040500 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -201,6 +220,12 @@
     <Content Include="Views\Shared\ChangeAmount.cshtml" />
     <Content Include="Views\Admin\Complient.cshtml" />
     <Content Include="Views\Register\View.cshtml" />
+    <Content Include="Views\BookMovie\View1.cshtml" />
+    <Content Include="Views\BookMovie\View2.cshtml" />
+    <Content Include="Views\Shared\DeletePart.cshtml" />
+    <Content Include="Views\BookMovie\test.cshtml" />
+    <Content Include="Views\Shared\_Ver2.cshtml" />
+    <Content Include="Views\Shared\SeatAvaliblity.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

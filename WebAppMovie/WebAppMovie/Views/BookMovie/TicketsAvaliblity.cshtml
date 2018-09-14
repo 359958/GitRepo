@@ -1,110 +1,157 @@
 ﻿
 @{
     ViewBag.Title = "TicketsAvaliblity";
-    Layout = "~/Views/Shared/_new.cshtml";
+    Layout = "~/Views/Shared/_Ver2.cshtml";
 }
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 
-    @*<link rel="stylesheet" href="~/Content/CSS/bootstrap.min.book.css">*@
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/Boot/jquery-3.3.1.js"></script>
+
     <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="~/Content/bootstrap-datepicker3.css" />
     <script>
 
         $(function () {
 
-            var id = '2018-09-09';
+            var fullDate = new Date()
+            console.log(fullDate);
+            //Thu Otc 15 2014 17:25:38 GMT+1000 {}
+
+            //convert month to 2 digits
+            var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : (fullDate.getMonth() + 1);
+
+            var currentDate = twoDigitMonth + "/" + fullDate.getDate() + "/" + fullDate.getFullYear();
+
+           
+
+
+            $('#selectdate').val(currentDate);
+            DatePicker();
+
+            function DatePicker() {
+                var dateToday = new Date();
+                var date_input = $('input[placeholder="MM/DD/YYY"]'); //our date input has the name "date"
+                var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+                var options = {
+                    format: 'mm/dd/yyyy',
+                    container: container,
+                    todayHighlight: true,
+                    orientation: "bottom right",
+                    autoclose: true,
+                    minDate: dateToday
+                };
+                date_input.datepicker(options);
+            }
+           
             var people = [];
+            var apiUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebapiUrl"].ToString())';
+            $('#TicketAvl').click(reload);
 
-            $.ajax({
-                type: "Get",
-                dataType: 'json',
-                url: "http://localhost:60683/api/BookMovie/TicketsAval",
-                data: { "showdate": id },
-                success: function (data) {
-                    alert();
+            function reload() {
+                location.reload();
+                getTickets();
+            }
+           
+            function getTickets() {
+              
+                var PostBackURL = apiUrl + '/BookMovie/TicketsAval'
+                var id = $('#selectdate').val();
+                alert(id);
+                $.ajax({
+                    type: "Get",
+                    dataType: 'json',
+                    url: PostBackURL,
+                    data: { "showdate": id },
+                    success: function (data) {
 
-                    console.log(data);
+                       
+                        console.log(data);
 
-                    var res = data.reduce(function (result, current) {
-                        result[current.Screen] = result[current.Screen] || [];
-                        result[current.Screen].push(current);
-                        return result;
-                    }, {});
+                        var res = data.reduce(function (result, current) {
+                            result[current.Screen] = result[current.Screen] || [];
+                            result[current.Screen].push(current);
+                            return result;
+                        }, {});
 
-                    console.log(res);
-                    ////console.log(data.reduce(function (result, current) {
-                    ////    result[current.Screen] = result[current.Screen] || [];
-                    ////    result[current.Screen].push(current);
-                    ////    return result;
-                    ////}, {}));
+                        console.log(res);
+                        ////console.log(data.reduce(function (result, current) {
+                        ////    result[current.Screen] = result[current.Screen] || [];
+                        ////    result[current.Screen].push(current);
+                        ////    return result;
+                        ////}, {}));
 
-                    //console.log("Hi");
-                    //for (var i = 0; i < res.length; ++i) {
-                    //    console.log("Item name: " + res.length);
-                    //    }
-                    //var tblRow = "";
-                    //var tblRow = "<div class=\"panel panel-default\">" + "<div class=\"card-body\">" + "<table class=\"table table-hover text-centered\" > <thead>" +
-                    //    "<th>Screen</th>  <th>Class</th> <th>Morning Show(11:30 am)</th>  <th>AfterNoon Show(11:30 am)</th>" + "<th>Evening Show (6:30 pm)</th>"+
-                    //"<th>Night Show(10:30)</th>" +
-                    //    "</thead>" +
-                    //    "</table>";
-                    var tblRow = "";
-                    $.each(res, function (x, re) {
-                        tblRow += "<div class=\"panel panel-default\">" + "<div class=\"panel-body\">" + "<table class=\"table\" > <thead>" +
-                            "<th>Screen</th>  <th>Class</th> <th>Morning(11:30 am)</th>  <th>AfterNoon(11:30 am)</th>" + "<th>Evening(6:30 pm)</th>" +
-                            "<th>Night(10:30)</th>" +
-                            "</thead>" +
-                            "</table><table class=\"table table - hover text - centered\">";
-                        $.each(re, function (i, f) {
+                        //console.log("Hi");
+                        //for (var i = 0; i < res.length; ++i) {
+                        //    console.log("Item name: " + res.length);
+                        //    }
+                        //var tblRow = "";
+                        //var tblRow = "<div class=\"panel panel-default\">" + "<div class=\"card-body\">" + "<table class=\"table table-hover text-centered\" > <thead>" +
+                        //    "<th>Screen</th>  <th>Class</th> <th>Morning Show(11:30 am)</th>  <th>AfterNoon Show(11:30 am)</th>" + "<th>Evening Show (6:30 pm)</th>"+
+                        //"<th>Night Show(10:30)</th>" +
+                        //    "</thead>" +
+                        //    "</table>";
+                        var tblRow = "";
+                        $.each(res, function (x, re) {
+                            tblRow += "<div class=\"panel panel-default\">" + "<div class=\"panel-body\">" + "<table class=\"table\" > <thead>" +
+                                "<th>Screen</th>  <th>Class</th> <th>Morning(11:30 am)</th>  <th>AfterNoon(11:30 am)</th>" + "<th>Evening(6:30 pm)</th>" +
+                                "<th>Night(10:30)</th>" +
+                                "</thead>" +
+                                "</table><table class=\"table table - hover text - centered\">";
+                            $.each(re, function (i, f) {
 
-                            console.log(f.s1);
-
-
-                            tblRow += "<tr> <td>" + f.Class + "</td>" + "<td>" + f.s1 + "</td>" + "<td>" + f.s2 + "</td>" + "<td>" + f.s3 + "</td>" + "<td>" + f.s4 + "</td></tr>";
+                                console.log(f.s1);
 
 
+                                tblRow += "<tr> <td>" + f.Class + "</td>" + "<td>" + f.s1 + "</td>" + "<td>" + f.s2 + "</td>" + "<td>" + f.s3 + "</td>" + "<td>" + f.s4 + "</td></tr>";
+
+
+
+                            });
+                            tblRow += "</table>"
+                            tblRow += "</div>";
+
+                            console.log(tblRow);
 
                         });
-                        tblRow += "</table>"
-                        tblRow += "</div>";
-
-                        console.log(tblRow);
-
-                    });
-                    $(tblRow).appendTo(".tickets div");
-                    //tblRow += "</div>";
+                        $(tblRow).appendTo(".tickets div");
+                        //tblRow += "</div>";
 
 
 
-                    //$.each(res, function (i, f) {
-                    //    for (var name in f) {
-                    //        //console.log("Item name: " + name);
+                        //$.each(res, function (i, f) {
+                        //    for (var name in f) {
+                        //        //console.log("Item name: " + name);
 
-                    //        console.log("i: " + i);
-                    //        alert(i);
-                    //        var tblRow = "<div class='box'><tr>" + "<td>" + f[i][name].s1 + "</td>" + "</tr>";
-                    //        $('#userdata div').html(tblRow);
+                        //        console.log("i: " + i);
+                        //        alert(i);
+                        //        var tblRow = "<div class='box'><tr>" + "<td>" + f[i][name].s1 + "</td>" + "</tr>";
+                        //        $('#userdata div').html(tblRow);
 
-                    //    }
+                        //    }
 
-                    //    var tblRow = "<div class='box'><tr>" + "<td>" + f.Screen[i].Screen + "</td>" +
-                    //        "<td>" + f.Class + "</td>" + "<td>" + f.s1 + "</td>" + "<td>" + f.s2 + "</td>" + "<td>" + f.s3 + "</td>" + "<td>" + f.s4 + "</td>" + "<td>" + i + "</td>" +
-                    //        "</tr> </div>"
-                    //    $(tblRow).appendTo("#userdata div");
-                    //    $('#userdata div').html(tblRow);
-                    //});
-                }
-                ,
-                error: function (response) {
-                    alert('bye');
-                }
-            });
+                        //    var tblRow = "<div class='box'><tr>" + "<td>" + f.Screen[i].Screen + "</td>" +
+                        //        "<td>" + f.Class + "</td>" + "<td>" + f.s1 + "</td>" + "<td>" + f.s2 + "</td>" + "<td>" + f.s3 + "</td>" + "<td>" + f.s4 + "</td>" + "<td>" + i + "</td>" +
+                        //        "</tr> </div>"
+                        //    $(tblRow).appendTo("#userdata div");
+                        //    $('#userdata div').html(tblRow);
+                        //});
+                    }
+                    ,
+                    error: function (response) {
+                        alert('Error');
+                    }
+
+                });
+            }
 
             //$.getJSON('people.json', function (data) {
             //    $.each(data.person, function (i, f) {
@@ -130,31 +177,40 @@
         }
 
         .table {
-
             border-radius: 2px;
             width: 80%;
             margin: 0px auto;
             float: none;
-        
-          
             border-radius: 4px;
-            
         }
 
         .col-lg-2, .col-md-3, .col-xs-6 {
             margin-top: 12px !important;
         }
+
+        .button1 {
+            background-color: white;
+            color: black;
+            border: 2px solid #4CAF50; /* Green */
+        }
     </style>
 </head>
 <body>
-    <h2>TicketsAvaliblity</h2>
+    <h4>TicketsAvaliblity</h4>
+
     <div class="table-responsive">
-  <div class="tickets">
-   <div>
-  </div>
-  </div>
-                    
- </div>
-          
+        <div class="tickets">
+            <div>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <!-- Date input -->
+        <label for="date">Date</label>
+        <div>
+            <input id="selectdate" name="From" placeholder="MM/DD/YYY" type="text" /> <button type="button" id="TicketAvl">Search</button>
+        </div>
+    </div>
 </body>
 </html>

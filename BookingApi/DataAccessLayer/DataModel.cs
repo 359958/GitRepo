@@ -32,12 +32,25 @@ namespace DataAccessLayer
         public string MovieName { get; set; }
     }
 
+    public class MovieDetailsdelete
+    {
+        public string MovieName { get; set; }
+        public string MovieId { get; set; }
+        public string ImagePath { get; set; }
+        public int FC { get; set; }
+        public int SC { get; set; }
+        public int TC { get; set; }
+        public DateTime Upto { get; set; }
+    }
+
     public class movieDetailsList
     {
         public string Screen { get; set; }
         public string Movie { get; set; }
         public DateTime RunningUpto { get; set; }
         public DateTime From { get; set; }
+
+        public string path { get; set; }
     }
 
     public class BookMovie

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "AddMovie2";
-    Layout = "~/Views/Shared/_new.cshtml";
+    Layout = "~/Views/Shared/_Ver2.cshtml";
 }
 
 <html lang="en">
@@ -17,6 +17,9 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="~/Content/bootstrap-datepicker3.css" />
+
+
+
     <style type="text/css">
         body {
             color: #999;
@@ -124,6 +127,34 @@
                 };
                 date_input.datepicker(options);
             }
+            var TeamDetailPostBackURL = '/Admin/Index';
+            $(".anchorDetail").click(function () {
+
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                alert(id);
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    success: function (data) {
+
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function (XHR, errorText, status) {
+                        console.log(XHR.responseText);
+                    }
+                });
+            });
+            //$("#closebtn").on('click',function(){
+            //    $('#myModal').modal('hide');
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
         });
 
             
@@ -131,16 +162,16 @@
 
 </head>
 <body>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("AddMovie2",                  "Admin",
+                        FormMethod.Post,
+                        new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="signup-form">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @*<form action="/examples/actions/confirmation.php" method="post" class="form-horizontal">*@
             <div class="form-horizontal">
-                <div class="col-xs-8 col-xs-offset-4">
-                    <h4>Add New Movies</h4>
-                </div>
+              
 
                 <div class="form-group">
                     <label class="control-label col-xs-4">Screen Name</label>
@@ -174,17 +205,34 @@
                         <input class="form-control" id="date" name="RunningUpto" placeholder="MM/DD/YYY" type="text" />
                     </div>
                 </div>
+                <div>
+                    <label for="file">Upload Image:</label>
+                    <input type="file" name="UploadedFile" id="file" style="width: 100%;" />
+
+                </div>
                 <div class="form-group">
                     <div class="col-xs-8 col-xs-offset-4">
 
                         <button type="submit" class="btn btn-primary btn-lg">Submit</button>   <button type="submit" class="btn btn-primary btn-lg">Clear</button>
                     </div>
+                    <a href="javascript:void(0);" class="anchorDetail">Edit/Delete</a>
                 </div>
-                @*</form>*@
+
+
+
             </div>
 
         </div>
     }
+
+    <div id='myModal' class='modal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>
 
