@@ -77,6 +77,36 @@ namespace WebAppMovie.Controllers
                 return null;
             }
         }
+
+        [HttpGet]
+        public ActionResult GetTicketStatus(string date,string MovieID)
+        {
+            var obj = GetTicketavl( date, MovieID);
+            return PartialView("SeatAvaliblity",obj);
+        }
+
+        public List<TicketAvaliblity> GetTicketavl(string date,string MovieID)
+        {
+
+           
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response;
+            response = httpClient.GetAsync(webapiurl + "/BookMovie/CheckAvaliblity?showdate=" + date+ "&movie="+MovieID).Result;
+            response.EnsureSuccessStatusCode();
+            List<TicketAvaliblity> stateList = response.Content.ReadAsAsync<List<TicketAvaliblity>>().Result;
+
+            if (!object.Equals(stateList, null))
+            {
+                var states = stateList.ToList();
+                return states;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public ActionResult Mybookings()
         {
             var output = MyTickets(userid);
@@ -128,30 +158,38 @@ namespace WebAppMovie.Controllers
             }
             obj.CUSTOMERID = Convert.ToInt32(Session["CID"].ToString());
             string json = BookMovieTic(obj);
+            var res = json.TrimStart(new char[] { '[' }).TrimEnd(new char[] { ']' });
+            JObject Jobj = JObject.Parse(res);
+            int Bookid = (int)Jobj["id"];
 
-            //var objs = JObject.Parse(json);
-            var cc = JsonConvert.DeserializeObject<IEnumerable<BookingID>>(json);
-
-            //TempData["bookid"] = objs["id"];
-            foreach (var item in cc)
+            var chk = GetMovieDate(obj.Movieid);
+            ViewBag.Date = chk.Distinct().Select(i => new SelectListItem() { Text = i.AllDays.ToString(), Value = i.AllDays.ToString() }).ToList();
+            var outp1 = BooKMovieDetails();
+            var linq = outp1.Where(x => x.MovieID == obj.Movieid).Select(x => new { x.MovieID, x.MovieName }).ToList();
+            MovieDetails obj1 = new MovieDetails();
+            foreach (var item in linq)
             {
-                int bookid = 1044;//Convert.ToInt32(item.BookId);
-                TempData["bookid"] = bookid;
-                if (bookid > 0)
+                obj1.MovieID = item.MovieID;
+                obj1.MovieName = item.MovieName;
+            }
+
+            TempData["bookid"] = Bookid;
+                if (Bookid > 0)
                 {
                     return RedirectToAction("Mybookings", "BookMovie");
                 }
                 else
                 {
-                    ViewBag.Message = "HouseFull";
+
+                    TempData["shortMessage"] = "Sorry!!!Seleted show HouseFull";
                     ViewBag.Movie = BooKMovieDetails();
                     ViewBag.Classid = DropDown.Classid();
                     ViewBag.Showid = DropDown.Showid();
                     ViewBag.NoTickets = DropDown.NoTickets();
-                }
-                
+                return RedirectToAction("view1");
             }
-            return View();
+
+            
         }
         
         [HttpPost]
@@ -279,6 +317,7 @@ namespace WebAppMovie.Controllers
 
         public ActionResult View1()
         {
+            ViewBag.Message = TempData["shortMessage"];
             var obj = BooKMovieDetailsTODelete();
             return View(obj);
         }

@@ -18,9 +18,9 @@ namespace DataAccessLayer
         bool IsInsert = false;
         public MovieCustReg()
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["SqlConn"].ConnectionString;//ConfigurationManager.AppSettings["MovieDBConnect"];
-            Conn = new SqlConnection(connectionString);
-          //  Conn = new SqlConnection(@"Data Source=B2ML28043\SQLEXPRESS;Initial Catalog=Movie;Integrated Security=True");
+            //string connectionString = ConfigurationManager.ConnectionStrings["SqlConn"].ConnectionString;//ConfigurationManager.AppSettings["MovieDBConnect"];
+           // Conn = new SqlConnection(connectionString);
+           Conn = new SqlConnection(@"Data Source=B2ML28043\SQLEXPRESS;Initial Catalog=Movie;Integrated Security=True");
         }
         public SqlConnection DBConnection()
         {
@@ -32,32 +32,25 @@ namespace DataAccessLayer
             return Conn;
         }
 
-        public bool createUser(UserDetails obj)
+        public DataTable createUser(UserDetails obj)
         {
 
-            try
-            {
-                query = "INSERT INTO dbo.Customer_details (CName, CPhone, Cemail,Password) " +
-                        "VALUES (@CName, @CPhone, @Cemail,@Password)";
-                using (SqlCommand objCmd = new SqlCommand())
-                {
-                    objCmd.Connection = DBConnection();
-                    objCmd.CommandType = CommandType.Text;
-                    objCmd.CommandText = query;
+            DataTable dataTable = new DataTable();
+            SqlCommand objCmd = new SqlCommand("newuser", DBConnection());
+            SqlDataAdapter adp = new SqlDataAdapter();
+            objCmd.CommandType = CommandType.StoredProcedure;
+            objCmd.Parameters.Add("@CName", SqlDbType.VarChar, 50).Value = obj.CName;
+            objCmd.Parameters.Add("@CPhone", SqlDbType.VarChar, 50).Value = obj.CPhone;
+            objCmd.Parameters.Add("@Cemail", SqlDbType.VarChar, 50).Value = obj.Cemail;
+            objCmd.Parameters.Add("@Password", SqlDbType.VarChar, 50).Value = obj.Password;
 
-                    objCmd.Parameters.Add("@CName", SqlDbType.VarChar, 50).Value = obj.CName;
-                    objCmd.Parameters.Add("@CPhone", SqlDbType.VarChar, 50).Value = obj.CPhone;
-                    objCmd.Parameters.Add("@Cemail", SqlDbType.VarChar, 50).Value = obj.Cemail;
-                    objCmd.Parameters.Add("@Password", SqlDbType.VarChar, 50).Value = obj.Password;
-                    IsInsert = objCmd.ExecuteNonQuery() > 0 ? true : false;
-                    Conn.Close();
-                    return IsInsert;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            objCmd.Connection = conn;
+
+
+            adp.SelectCommand = objCmd;
+            adp.Fill(dataTable);
+            return dataTable;
+
         }
         public bool updateUser(UserDetails obj)
         {
@@ -235,9 +228,10 @@ namespace DataAccessLayer
                       MovieName = row.Field<string>(1),
                       ImagePath = row.Field<string>(2),
                       Upto = row.Field<DateTime>(3),
-                      FC = row.Field<int>(4),
-                      SC = row.Field<int>(5),
-                      TC = row.Field<int>(6)
+                      ScreenName = row.Field<string>(4),
+                      FC = row.Field<int>(5),
+                      SC = row.Field<int>(6),
+                      TC = row.Field<int>(7)
                   }).ToList();
                 }
             }
@@ -336,6 +330,36 @@ namespace DataAccessLayer
                     //objCmd.Parameters.Add("@Runningdate", SqlDbType.VarChar, 50).Value = obj.RunningUpto;
                     //objCmd.Parameters.Add("@ScreenName", SqlDbType.VarChar, 50).Value = obj.Screen;
                     //objCmd.Parameters.Add("@MovieName", SqlDbType.VarChar, 50).Value = obj.Movie;
+
+                    IsInsert = objCmd.ExecuteNonQuery() > 0 ? true : false;
+                    Conn.Close();
+                    return IsInsert;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+
+        public bool AdminDeleteMovie(movieDetailsList obj)
+        {
+            try
+            {
+                Adapter = new SqlDataAdapter();
+                using (SqlCommand objCmd = new SqlCommand("DeleteMovie", DBConnection()))
+                {
+                    DataTable dataTable = new DataTable();
+                    dataTable = null;
+                    DataSet ds = new DataSet();
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+
+               
+                    objCmd.Parameters.Add("@MovieName", SqlDbType.VarChar, 50).Value = obj.Movie;
+                   
 
                     IsInsert = objCmd.ExecuteNonQuery() > 0 ? true : false;
                     Conn.Close();
@@ -454,7 +478,7 @@ namespace DataAccessLayer
             }
         }
 
-        public DataTable TicketsAvliblity(string showdate)
+        public DataTable TicketsAvliblity(string showdate,string movie)
         {
             
             Adapter = new SqlDataAdapter();
@@ -467,6 +491,7 @@ namespace DataAccessLayer
                 myCommand.CommandType = CommandType.StoredProcedure;
                 myCommand.CommandText = "SpCheckTicketsAval";
                 myCommand.Parameters.Add("@Showdate", SqlDbType.NVarChar).Value = showdate;
+                myCommand.Parameters.Add("@movieid", SqlDbType.NVarChar).Value = movie;
                 Adapter.SelectCommand = myCommand;
                 Adapter.Fill(ds);
                 return ds.Tables[0];

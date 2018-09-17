@@ -59,6 +59,7 @@ namespace WebAppMovie.Models
         public string MovieName { get; set; }
         public string MovieId { get; set; }
         public string ImagePath { get; set; }
+        public string ScreenName { get; set; }
         public string FC { get; set; }
         public string SC { get; set; }
         public string TC { get; set; }

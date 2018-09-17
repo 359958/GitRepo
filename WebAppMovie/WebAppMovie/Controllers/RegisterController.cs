@@ -20,6 +20,12 @@ namespace WebAppMovie.Controllers
         string webapiurl = System.Configuration.ConfigurationManager.AppSettings["WebapiUrl"].ToString();
         // GET: Register
         string JsonData = string.Empty;
+        public ActionResult Home()
+        {
+            return View();
+        }
+    
+      
 
         public ActionResult CreateUser2()
         {
@@ -32,6 +38,10 @@ namespace WebAppMovie.Controllers
             if (sus.Contains("Successfully"))
             {
                 ViewBag.Message = "Successfully";
+            }
+            else if (sus.Contains("Exist"))
+            {
+                ViewBag.Message = "Email Id Exist already";
             }
             return View();
        
@@ -69,7 +79,7 @@ namespace WebAppMovie.Controllers
             return View();
         }
 
-
+        [HttpGet]
         public ActionResult LoginPage()
         {
             return View();
@@ -255,7 +265,11 @@ namespace WebAppMovie.Controllers
            var sus =  UpdateUserDetails(obj);
             if (sus.Contains("Successfully"))
             {
-                ViewBag.Message = "Updated";
+                ViewBag.Message = "Profile Created";
+            }
+            else if(sus.Contains("Exist"))
+            {
+                ViewBag.Message = "Email Id Exist already";
             }
             return View();
         }

@@ -59,18 +59,27 @@ namespace BookingApi.Controllers
         [HttpPost]
         public HttpResponseMessage createUser(UserDetails uObj)
         {
-            bool status = false;
-            status= objReg.createUser(uObj);
-            if (status == true)
+            var showmessage = "";
+            var status= objReg.createUser(uObj);
+            int val = Convert.ToInt32(status.Rows[0][0]);
+            if (status != null)
             {
-                var showmessage = "Product Saved Successfully.";
+                if (val == 0)
+                {
+                     showmessage = "Email Id Already Exist Try with new ID";
+                }
+                else
+                {
+                     showmessage = "Profile Saved Successfully.";
+                }
+             
 
                 return Request.CreateResponse(HttpStatusCode.OK, showmessage);
 
             }
             else
             {
-                var showmessage = "Product Not Saved Please try again.";
+                 showmessage = "Profile not Saved Please try again.";
 
                 return Request.CreateResponse(HttpStatusCode.BadRequest, showmessage);
 

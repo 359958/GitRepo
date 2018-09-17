@@ -127,6 +127,7 @@
     <Content Include="Content\CSS\Roll.css" />
     <Content Include="Content\image\2.png" />
     <Content Include="Content\image\3.png" />
+    <Content Include="Content\image\cirque-du-soleil--bazzar-11-09-2018-11-48-06-226.jpg" />
     <Content Include="Content\image\color.png" />
     <Content Include="Content\image\country-quilt.png" />
     <Content Include="Content\image\Feed.png" />
@@ -142,6 +143,7 @@
     <Content Include="Content\image\Movie.png" />
     <Content Include="Content\image\ny.jpg" />
     <Content Include="Content\image\Prof.png" />
+    <Content Include="Content\image\s.jpg" />
     <Content Include="Content\image\Seat.png" />
     <Content Include="Content\image\seperator.gif" />
     <Content Include="Content\loginpage.css" />
@@ -226,6 +228,8 @@
     <Content Include="Views\BookMovie\test.cshtml" />
     <Content Include="Views\Shared\_Ver2.cshtml" />
     <Content Include="Views\Shared\SeatAvaliblity.cshtml" />
+    <Content Include="Views\Register\Home.cshtml" />
+    <Content Include="Views\Shared\LoginPagepv.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -235,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\CSS\Slider\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -37,6 +37,7 @@ namespace DataAccessLayer
         public string MovieName { get; set; }
         public string MovieId { get; set; }
         public string ImagePath { get; set; }
+        public string ScreenName { get; set; }
         public int FC { get; set; }
         public int SC { get; set; }
         public int TC { get; set; }

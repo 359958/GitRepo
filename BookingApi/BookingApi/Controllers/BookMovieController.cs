@@ -98,13 +98,13 @@ namespace BookingApi.Controllers
 
 
 
-        [HttpGet, ActionName("TicketsAval")]
-        public HttpResponseMessage CheckAvaliblity(string showdate)
+        [HttpGet]
+        public HttpResponseMessage CheckAvaliblity(string showdate, string movie)
         {
             HttpResponseMessage response;
             try
             {
-                var ticketResponse = objReg.TicketsAvliblity(showdate);
+                var ticketResponse = objReg.TicketsAvliblity(showdate, movie);
                 if (ticketResponse != null)
                     response = Request.CreateResponse(HttpStatusCode.OK, ticketResponse);
                 else

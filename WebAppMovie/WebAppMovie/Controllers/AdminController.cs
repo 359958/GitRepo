@@ -152,7 +152,7 @@ namespace WebAppMovie.Controllers
             {
                 string stringData = JsonConvert.SerializeObject(obj);
                 var contentData = new StringContent(stringData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PostAsync(webapiurl + "/Admin/UpdatePrice", contentData).Result;
+                HttpResponseMessage response = client.PostAsync(webapiurl + "/Admin/Updateseat", contentData).Result;
                 var list = response.Content.ReadAsStringAsync().Result;
                 return list;
             }

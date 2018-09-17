@@ -5,12 +5,12 @@
 }
 <html>
 <head>
-     <script src="~/Scripts/Boot/jquery-3.3.1.js"></script>
- 
+    <script src="~/Scripts/Boot/jquery-3.3.1.js"></script>
+
     <script src="~/Scripts/bootstrap.min.js"></script>
- 
+
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
- 
+
     <script src="~/Scripts/bootstrap.js"></script>
 
 
@@ -59,7 +59,7 @@
 </head>
 <body>
     <h4>AdminConsole</h4>
-    <hr/>
+    <hr />
     <div id="mydiv16">
 
         <table cellpadding="10" cellspacing="20">
@@ -71,7 +71,7 @@
 
             <tr>
                 <td>  <img src="~/Content/image/Feed.png" />    <br />  @Html.ActionLink("Feedback\\complients", "Complient", "Admin")</td>
-                <td></td>
+               
                 <td>  <img src="~/Content/image/Movie.png" /> <br /> <a href="javascript:void(0);" class="anchorDetail" data-id="ChangePrice">Change Ticket Price</a></td>
             </tr>
             <tr>
@@ -91,4 +91,17 @@
 
 </body>
 </html>
-    
+
+@if (ViewBag.Message != null)
+{
+    <script>
+
+        $(document).ready(function () {
+
+            alert('Seats Updated');
+
+        });
+
+    </script>
+
+}

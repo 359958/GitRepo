@@ -107,22 +107,21 @@
 <div>
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 class="modal-title" id="myModalLabel">Ticket Details</h4>
+        <h4 class="modal-title" id="myModalLabel">Book your tickets</h4>
     </div>
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         <hr />
-        <div class="signup-form">
+        <div>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @*<form action="/examples/actions/confirmation.php" method="post" class="form-horizontal">*@
             <div class="form-horizontal">
                 <div class="col-xs-8 col-xs-offset-4">
 
                 </div>
-                @*@foreach (var item in Model)
-                {*@
+               
                 <div class="form-group">
                     @Html.DisplayFor(model => model.MovieName)
                     @Html.HiddenFor(model=>model.MovieID)
@@ -166,7 +165,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-xs-8 col-xs-offset-4">
+                    <div class="col-xs-12">
 
                         <button type="submit" class="btn btn-primary btn-lg">Book Ticket</button>
                     </div>
@@ -185,7 +184,7 @@
 
 $(document).ready(function(){
 
-alert('hOUSE fULL');
+alert('Sorry Selected Movie House Full.');
 
 });
 

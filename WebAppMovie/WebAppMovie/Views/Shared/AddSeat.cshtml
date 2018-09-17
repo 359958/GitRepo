@@ -1,38 +1,37 @@
 ﻿@model WebAppMovie.Models.AddSeats
 <div>
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          
-        </div>
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 
-            <h4>AddSeat</h4>
-            <table>
-                <tbody>
-                    <tr>
-                        <th><label>Screen</label></th>
-                        <td>@Html.DropDownList("ScreenId", (IEnumerable<SelectListItem>)ViewBag.Screen, new { @class = "form-control" })</td>
-                    </tr>
-                    <tr>
-                        <th><label class="control-label col-xs-4">Class</label></th>
-                        <td> @Html.DropDownList("Classid", (IEnumerable<SelectListItem>)ViewBag.Class, new { @class = "form-control" })</td>
-                    </tr>
-                    <tr>
-                        <th><label class="control-label col-xs-4">Seats</label></th>
-                        <td>@Html.TextBoxFor(model => model.NoofTickets, null, null)</td>
-                    </tr>
-                    <tr>
-                       <br/>
-                        <td><button type="submit" formaction="AddSeats">Book Ticket</button></td>
-                    </tr>
-                </tbody>
-            </table>
-
-        }
     </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
+        <h4>AddSeat</h4>
+        <table>
+            <tbody>
+                <tr>
+                    <th><label>Screen</label></th>
+                    <td>@Html.DropDownList("ScreenId", (IEnumerable<SelectListItem>)ViewBag.Screen, new { @class = "form-control" })</td>
+                </tr>
+                <tr>
+                    <th><label class="control-label col-xs-4">Class</label></th>
+                    <td> @Html.DropDownList("Classid", (IEnumerable<SelectListItem>)ViewBag.Class, new { @class = "form-control" })</td>
+                </tr>
+                <tr>
+                    <th><label class="control-label col-xs-4">Seats</label></th>
+                    <td>@Html.TextBoxFor(model => model.NoofTickets, null, null)</td>
+                </tr>
+                <tr>
+                    <br />
+                    <td><button type="submit" formaction="AddSeats">Book Ticket</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+    }
+</div>
 
 @if (ViewBag.Message != null)
 {
@@ -40,10 +39,12 @@
 
 $(document).ready(function(){
 
-alert('Seats Updated');
+alert('Seat Updated');
 
 });
 
     </script>
 
 }
+
+

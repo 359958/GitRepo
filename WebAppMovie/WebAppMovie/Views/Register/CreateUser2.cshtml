@@ -154,20 +154,20 @@
                             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label class="control-label col-xs-4">Confirm Password</label>
                         <div class="col-xs-8">
                             <input type="password" class="form-control" name="confirm_password" required="required">
                         </div>
-                    </div>
+                    </div>*@
                     <div class="form-group">
                         <div class="col-xs-8">
                             <p><label class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a>.</label></p>
-                            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>  <button type="submit" class="btn btn-primary btn-lg">Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>  <button type="submit" class="btn btn-primary btn-lg">Cancel</button>  <div>Already have an account? @Html.ActionLink("Login", "LoginPage", "Register")</div>
                         </div>
                     </div>
                 </div>
-                <div class="text-center">Already have an account? @Html.ActionLink("Login", "LoginPage", "Register")</div>
+                
             </div>
         }
     </div>
@@ -179,7 +179,8 @@
 
         $(document).ready(function () {
 
-            alert('Profile Created');
+            var mess = ViewBag.Message;
+            alert("@ViewBag.Message");
 
         });
 

@@ -140,6 +140,36 @@ namespace BookingApi.Controllers
             }
         }
 
+        [HttpPost, ActionName("DeleteMovie")]
+        public HttpResponseMessage DeleteMovie(movieDetailsList obj)
+        {
+            bool status = false;
+            HttpResponseMessage response;
+            try
+            {
+                status = objReg.AdminDeleteMovie(obj);
+                if (status == true)
+                {
+                    var showmessage = "Movie deleted Successfully.";
+
+                    return Request.CreateResponse(HttpStatusCode.OK, showmessage);
+
+                }
+                else
+                {
+
+                    var showmessage = "Movie Not deleted Please try again.";
+
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, showmessage);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpPost]
         public HttpResponseMessage Updateseat(AddSeats obj)
         {

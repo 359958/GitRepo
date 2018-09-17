@@ -3,6 +3,14 @@
 @{
     Layout = null;
 }
+<style>
+    .class1{
+        color:palegreen
+    }
+    .class2 {
+        color: aqua
+    }
+</style>
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -34,14 +42,16 @@
     
     @foreach (var item in Model) {
         <tr>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Screen)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClassType)
+                @Html.DisplayFor(modelItem => item.ClassType) 
             </td>
+         
             <td>
-                @Html.DisplayFor(modelItem => item.s1)
+                @Html.DisplayFor(modelItem => item.s1, new { @class = "class2" })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.s2)
